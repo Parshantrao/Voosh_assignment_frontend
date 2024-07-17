@@ -1,0 +1,26 @@
+.nav-bar_content {
+  background-color: blue;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+}
+
+.nav-bar_content .btns {
+  display: flex;
+  padding: 6px;
+  border-radius: 10px;
+}
+.nav-bar_content .btns button {
+  border-radius: 7px;
+  margin-right: 5px;
+  box-shadow: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  background-color: blue;
+}
+.nav-bar_content .btns button#selected {
+    color: blue;
+    background-color: white;
+  }
