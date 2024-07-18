@@ -5,7 +5,7 @@ import { stateContext } from '../../stateContext/StateContext';
 import "./Card.css"
 
 function Cards({ title, description, date, id }) {
-    const {setDetailsModalShow,setCardDetails} = useContext(stateContext)
+    const {setDetailsModalShow,setCardDetails,setEditModalShow} = useContext(stateContext)
     return (
         <Card>
             <Card.Body>
@@ -18,7 +18,9 @@ function Cards({ title, description, date, id }) {
                 </Card.Text>
                 <div className='btns'>
                     <Button variant="danger">Delete</Button>
-                    <Button variant="info">Edit</Button>
+                    <Button variant="info" onClick={()=>{setEditModalShow(true)
+                        setCardDetails({title,description,date,id})
+                    }}>Edit</Button>
                     <Button variant="primary" onClick={()=>{setDetailsModalShow(true)
                         setCardDetails({title,description,date,id})
                     }}>View Details</Button>

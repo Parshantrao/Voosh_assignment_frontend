@@ -1,0 +1,92 @@
+/* ......... Edit Task Modal ......... */
+.edit-task-modal{
+
+}
+
+.edit-task-modal .modal-body{
+
+}
+
+.edit-task-modal .modal-body .form-label{
+    font-weight: 600;
+    font-size: 20px;
+    color: gray;
+    margin: 0 ;
+}
+
+.edit-task-modal .modal-body .form-control{
+    border: none;
+    border-bottom: 1px solid black;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0px 3px;
+    font-weight: 600;
+    font-size: 24px;
+    color: rgb(49, 49, 49);
+}
+.edit-task-modal .modal-footer{
+    margin-top: 40px;
+}
+
+
+/* ......... Info Modal ......... */
+.info-modal{
+
+}
+
+.info-modal .modal-body #title{
+    font-size: 20px;
+    font-weight: 700;
+}
+.info-modal .modal-body #description{
+    font-size: 18px;
+    font-weight: 600;
+    color: rgb(85, 85, 85);
+    margin-bottom: 5px;
+}
+.info-modal .modal-body #date{
+    font-size: 18px;
+    font-weight: 600;
+    color: gray;
+    margin-bottom: 0;
+}
+.info-modal .modal-footer .btn{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.info-modal .modal-footer{
+    margin-top: 40px;
+}
+
+
+
+/* ......... Add Task Modal ......... */
+.add-task-modal{
+
+}
+
+.add-task-modal .modal-body{
+
+}
+
+.add-task-modal .modal-body .form-label{
+    font-weight: 600;
+    font-size: 20px;
+    color: gray;
+    margin: 0 ;
+}
+
+.add-task-modal .modal-body .form-control{
+    border: none;
+    border-bottom: 1px solid black;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0px 3px;
+    font-weight: 600;
+    font-size: 24px;
+    color: rgb(49, 49, 49);
+}
+.add-task-modal .modal-footer{
+    margin-top: 40px;
+}

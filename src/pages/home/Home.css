@@ -1,20 +1,20 @@
 
-.home-page_content{
-
+.home-page_container{
+    margin-bottom: 2rem;
 }
 
-.home-page_content #add-task_btn {
+.home-page_container #add-task_btn {
     margin-bottom: 20px;
 }
 
-.home-page_content #add-task_btn .btn{
+.home-page_container #add-task_btn .btn{
     padding: 3px 30px;
     width: 150px;
 }
 
-.home-page_content .search-sort_content{
+.home-page_container .search-sort_content{
     margin: 0;
-    padding: 8px;
+    padding: 12px;
     border-radius: 7px;
     display: flex;
     justify-content: space-between;
@@ -22,38 +22,38 @@
     box-shadow: -2px 3px 15px 0px rgba(0, 0, 0, 0.2);
 }
 
-.home-page_content .search-sort_content #search_content b,
-.home-page_content .search-sort_content #sort_content b{
+.home-page_container .search-sort_content #search_content b,
+.home-page_container .search-sort_content #sort_content b{
     font-weight: 700;
     margin-right: 5px;
 }
 
-.home-page_content .search-sort_content #search_content input{
+.home-page_container .search-sort_content #search_content input{
     padding: 5px 10px;
 }
 
-.home-page_content .search-sort_content #sort_content{
+.home-page_container .search-sort_content #sort_content{
     display: flex;
     align-items: center;
     justify-content: flex-end;
 }
-.home-page_content .search-sort_content #sort_content #sort_option{
+.home-page_container .search-sort_content #sort_content #sort_option{
   padding: 3px;
   border-radius: 5px;
 }
 
-.home-page_content .search-sort_content #sort_content #sort_option option{
+.home-page_container .search-sort_content #sort_content #sort_option option{
     padding: 3px;
     border-radius: 5px;
     background-color: white;
     font-size: 15px;
   }
 
-.home-page_content .card-container{
+.home-page_container .card-container{
 
 }
 
-.home-page_content .card-container .shadow-box{
+.home-page_container .card-container .shadow-box{
     /* margin-left: 5px;
     margin-right: 5px;
     padding: 0; */
@@ -62,7 +62,7 @@
     box-shadow: 1px 2px 15px 0px rgba(0, 0, 0, 0.2);
 }
 
-.home-page_content .card-container .heading{
+.home-page_container .card-container .heading{
 background-color: blue;
 display: flex;
 font-size: 18px;
@@ -71,7 +71,7 @@ padding: 10px;
 font-weight: 600;
 }
 
-.home-page_content .card-container .card-content{
+.home-page_container .card-container .card-content{
     padding: 10px;
     gap: 10px;
     display: flex;
@@ -79,7 +79,7 @@ font-weight: 600;
 }
 
 @media screen and (max-width:576px) {
-    .home-page_content .search-sort_content #sort_content{
+    .home-page_container .search-sort_content #sort_content{
         margin-top: 20px;
         justify-content: flex-start;
     } 
