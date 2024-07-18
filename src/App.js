@@ -10,10 +10,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
+      
+        <Navbar />
+      
       <Routes>
         <Route path="/registration" element={<Signup />} />
-        <Route index element={<Home />} />
+        <Route path="/dashboard" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

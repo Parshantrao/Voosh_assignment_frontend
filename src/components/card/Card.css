@@ -1,0 +1,27 @@
+.card{
+    background-color: rgb(219, 237, 251) !important;
+}
+
+.card .card-body .card-title{
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.card .card-body .card-subtitle{
+    margin-bottom: 30px;
+}
+
+.card .card-body .card-text{
+
+}
+
+.card .card-body .btns{
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.card .card-body .btns .btn{
+    padding: 3px 10px;
+}
