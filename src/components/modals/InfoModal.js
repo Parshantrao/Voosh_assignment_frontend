@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { stateContext } from '../../stateContext/StateContext';
+import { stateContext } from '../../contexts/Context';
 import "./Style.css"
 
-function InfoCard( props) {
+function InfoModal( props) {
     const {cardDetails} = useContext(stateContext)
     return (
 
@@ -23,7 +23,7 @@ function InfoCard( props) {
             <Modal.Body>
                 <p id='title'>Title: {cardDetails.title}</p>
                 <p id='description'>Description: {cardDetails.description}</p>
-                <p id='date'>Created at: {cardDetails.date}</p>
+                <p id='date'>Created at: {cardDetails.dueDate}</p>
             </Modal.Body>
             <Modal.Footer>
                 <Button onClick={props.onHide}>Close</Button>
@@ -33,4 +33,4 @@ function InfoCard( props) {
     );
 }
 
-export default InfoCard;
+export default InfoModal;

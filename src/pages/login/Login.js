@@ -1,34 +1,96 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import {Link} from "react-router-dom"
+import {  useNavigate } from "react-router-dom"
+import { stateContext } from '../../contexts/Context';
 
 function Login() {
+  const {setUserEmail,userEmail,setIsUserLoggedin} = useContext(stateContext);
+  
+  const navigate = useNavigate()
+
+  const formData = {
+    email:userEmail?userEmail:"",
+    password:""
+  }
+
+  const [loginFormData, setLoginFormData] = useState(formData)
+
+  const [loginBtnClicked, setLoginBtnClicked] = useState(false);
+
+  const handleEmailChange = (e) => {
+    setLoginFormData({...loginFormData,email:e.target.value});
+    // const emailElement = document.querySelector("input[name=email]")
+    // if(emailRegex.test(emailElement.value)){
+    //   emailElement.setCustomValidity("")
+    // }
+    // else{
+    //   emailElement.setCustomValidity("Please enter a valid email")
+    // }
+  };
+
+
+  const handleSubmit =async (event) => {
+    event.preventDefault();
+    setLoginBtnClicked(true)
+    
+    // localStorage.setItem("userEmail",loginFormData.email)
+    // setUserEmail(loginFormData.email)
+
+    let fetchedData = await fetch("http://localhost:3000/login", {
+      method: 'POST',
+      credentials:'include', headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ...loginFormData })
+    })
+    let jsonData = await fetchedData.json()
+    if (!jsonData.status) {
+      window.alert(jsonData.message)
+    }
+    else {
+      setIsUserLoggedin(true)
+      localStorage.setItem('userId',jsonData.data)
+      // window.alert(jsonData.message)
+      setLoginFormData(formData)
+      setTimeout(() => {
+        navigate("/dashboard")
+      }, 700);
+      console.log(jsonData)
+    }
+    setLoginBtnClicked(false)
+  };
+  
   return (
-    <div style={{display:'flex',justifyContent:'center',alignItems:'center',minHeight:'calc(100vh - 50px)'}}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 'calc(100vh - 50px)' }}>
       <div style={{}}>
-        <h1 style={{color:'blue',fontWeight:'700'}}>Login</h1>
-        <div style={{border:'2px solid blue',borderRadius:'8px'}} className='px-4 py-3'>
-          <Form>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Control type="email" placeholder="Email" />
-              <Form.Text className="text-muted">
-              </Form.Text>
+        <h1 style={{ color: 'blue', fontWeight: '700' }}>Login</h1>
+        <div style={{ border: '2px solid blue', borderRadius: '8px' }} className='px-4 py-3'>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="validationCustom03">
+              <Form.Control value={loginFormData.email}
+              onChange={handleEmailChange}
+              name='email'
+              type="email" placeholder="Email" required />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Control type="password" placeholder="Password" />
+              <Form.Control required value={loginFormData.password} onChange={(e) => {
+                setLoginFormData({...loginFormData,password:e.target.value.trim()})
+              }} type="password" placeholder="Password" />
             </Form.Group>
-           
-            <Button variant="primary" style={{width:'100%'}} type="submit">
+
+            <Button disabled={loginBtnClicked} variant="primary" style={{ width: '100%' }} type='submit'>
               Login
             </Button>
 
-            <div style={{marginTop:'15px'}}>
-              <span style={{fontWeight:'600'}}>Don't have an account? <a href='/signup' style={{textDecoration:'none'}}>Signup</a> </span>
+            <div style={{ marginTop: '15px' }}>
+              <span style={{ fontWeight: '600' }}>Don't have an account? <span onClick={()=>{
+                navigate("/registration")
+              }} style={{ textDecoration: 'none',color:'blue',cursor:'pointer' }}>Signup</span> </span>
             </div>
-            <div style={{textAlign:'center',marginTop:'15px'}}>
-              <Button>Login with <b>Google</b></Button>
+            <div style={{ textAlign: 'center', marginTop: '15px' }}>
+              <Button >Login with <b>Google</b></Button>
             </div>
           </Form>
         </div>

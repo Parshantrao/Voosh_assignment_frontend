@@ -2,61 +2,52 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Button, Container, Dropdown, Row, Col } from 'react-bootstrap'
 import Cards from '../../components/card/Card'
 import "./Home.css"
-import InfoCard from '../../components/modals/InfoModal'
-import { stateContext } from '../../stateContext/StateContext'
-import EditCard from '../../components/modals/EditTaskModal'
-import AddTask from '../../components/modals/AddTaskModal'
+import InfoModal from '../../components/modals/InfoModal'
+import { stateContext } from '../../contexts/Context'
+import EditTaskModal from '../../components/modals/EditTaskModal'
+import AddTaskModal from '../../components/modals/AddTaskModal'
+import { useNavigate } from 'react-router'
+import DeleteTaskModal from '../../components/modals/deleteTaskModal'
 
 function Home() {
-
+  const navigate = useNavigate()
   const [searchText, setSearchText] = useState("")
-  let cardData = [
-    {
-      title: "Task 1",
-      description: "Description 1",
-      date: new Date().toLocaleString()
-    },
-    {
-      title: "Task 2",
-      description: "Description 2",
-      date: new Date().toLocaleString()
-    },
-    {
-      title: "Task 3",
-      description: "Description 3",
-      date: new Date().toLocaleString()
-    },
-    {
-      title: "Task 4",
-      description: "Description 4",
-      date: new Date().toLocaleString()
-    },
-    {
-      title: "Task 5",
-      description: "Description 5",
-      date: new Date().toLocaleString()
-    },
-    {
-      title: "Task 6",
-      description: "Description 6",
-      date: new Date().toLocaleString()
-    },
-  ]
-  const [data, setData] = useState([...cardData])
 
-  const { addModalShow, setAddModalShow, detailsModalShow, setDetailsModalShow, editModalShow, setEditModalShow, setCardDetails } = useContext(stateContext)
+  const { addModalShow, setAddModalShow, detailsModalShow, setDetailsModalShow, editModalShow, setEditModalShow, setCardDetails, tasksData, fetchAllTasks, checkForTokenValidation } = useContext(stateContext)
+
+
 
   useEffect(() => {
-    if (searchText.trim() === "") {
-      setData([...cardData])
-      return
+    const checkUserAuth = async () => {
+      const isTokenValid = await checkForTokenValidation()
+      if (!localStorage.getItem("userId") || !isTokenValid) {
+        navigate("/login")
+      }
+      else {
+        fetchAllTasks()
+      }
     }
-    let arr = cardData.filter(data => data.title.toLowerCase().includes(searchText) || data.description.toLowerCase().includes(searchText) || data.date.includes(searchText));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    console.log(arr, searchText)
-    setData([...arr])
-    // console.log(searchText)
-  }, [searchText])
+    checkUserAuth()
+  }, [])
+
+
+
+
+  // get all tasks
+  // useEffect(() => {
+
+  // }, [])
+
+  // useEffect(() => {
+  //   if (searchText.trim() === "") {
+  //     setTasksData([...cardData])
+  //     return
+  //   }
+  //   let arr = cardData.filter(data => data.title.toLowerCase().includes(searchText) || data.description.toLowerCase().includes(searchText) || data.dueDate.split("T")[0].includes(searchText));
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   setTasksData([...arr])
+  //   // console.log(searchText)
+  // }, [searchText])
 
   return (
     <Container className='mt-5 p-0 home-page_container'>
@@ -84,8 +75,8 @@ function Home() {
               <span className='heading' >TODO</span>
             </div>
             <div className='card-content'>
-              {data.map((data, idx) => {
-                return idx <= 2 && <Cards title={data.title} description={data.description} date={data.date} />
+              {tasksData.map((data, idx) => {
+                return data.status === "TODO" && <Cards key={idx} title={data.title} description={data.description} dueDate={data.dueDate.split("T")[0]} id={data._id} />
               })}
             </div>
           </div>
@@ -99,8 +90,8 @@ function Home() {
                 className='heading' >IN PROGRESS</span>
             </div>
             <div className='card-content'>
-              {data.map((data, idx) => {
-                return idx <= 4 && idx >= 3 && <Cards title={data.title} description={data.description} date={data.date} />
+              {tasksData.map((data, idx) => {
+                return data.status === "INPROGRESS" && <Cards key={idx} title={data.title} description={data.description} dueDate={data.dueDate.split("T")[0]} id={data._id} />
               })}
             </div>
           </div>
@@ -113,33 +104,22 @@ function Home() {
                 className='heading' >DONE</span>
             </div>
             <div className='card-content'>
-              {data.map((data, idx) => {
-                return idx >= 5 && <Cards title={data.title} description={data.description} date={data.date} />
+              {tasksData.map((data, idx) => {
+                return data.status === "DONE" && <Cards key={idx} title={data.title} description={data.description} dueDate={data.dueDate.split("T")[0]} id={data._id} />
               })}
             </div>
           </div>
         </Col>
       </Row>
-      <InfoCard show={detailsModalShow}
+      <InfoModal show={detailsModalShow}
         onHide={() => {
           setDetailsModalShow(false)
           setCardDetails([])
         }}
       />
-      <EditCard
-        show={editModalShow}
-        onHide={() => {
-          setEditModalShow(false)
-          setCardDetails([])
-        }}
-      />
-      <AddTask
-        show={addModalShow}
-        onHide={() => {
-          setAddModalShow(false)
-          setCardDetails([])
-        }}
-      />
+      <EditTaskModal />
+      <AddTaskModal />
+      <DeleteTaskModal />
     </Container>
   )
 }
