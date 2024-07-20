@@ -59,7 +59,7 @@ function EditTaskModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let fetchedData = await fetch(`http://localhost:3000/tasks/${cardDetails.id}`, {
+    let fetchedData = await fetch(`https://voosh-assignment-backend-vv41.onrender.com/tasks/${cardDetails.id}`, {
       method: "PUT",
       credentials: "include",
       headers: {

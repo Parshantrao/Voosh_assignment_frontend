@@ -52,7 +52,7 @@ function Signup() {
     e.preventDefault();
     setUserEmail(signupFormData.email)
 
-    let fetchedData = await fetch("http://localhost:3000/users", {
+    let fetchedData = await fetch("https://voosh-assignment-backend-vv41.onrender.com/users", {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       },

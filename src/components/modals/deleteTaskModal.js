@@ -13,7 +13,7 @@ function DeleteTaskModal() {
   const handleDelete = async(e)=>{
     e.preventDefault();
 
-    let fetchedData = await fetch(`http://localhost:3000/tasks/${taskId}`, {
+    let fetchedData = await fetch(`https://voosh-assignment-backend-vv41.onrender.com/tasks/${taskId}`, {
       method: "DELETE",
       credentials: "include",
       headers: {

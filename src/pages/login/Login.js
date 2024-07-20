@@ -29,7 +29,7 @@ function Login() {
     setLoginBtnClicked(true)
 
 
-    let apiResponse = await fetch("http://localhost:3000/login", {
+    let apiResponse = await fetch("https://voosh-assignment-backend-vv41.onrender.com/login", {
       method: 'POST',
       credentials: 'include', headers: {
         'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ function Login() {
 
   const handleGoogleLogin = async (event) => {
     event.preventDefault();
-    window.location.href = 'http://localhost:3000/google-login';
+    window.location.href = 'https://voosh-assignment-backend-vv41.onrender.com/google-login';
   }
 
   useEffect(() => {

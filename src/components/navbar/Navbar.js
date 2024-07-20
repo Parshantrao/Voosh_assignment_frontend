@@ -15,7 +15,7 @@ function Navbar() {
 
   const handleLogoutBtnClick = ()=>{
     localStorage.clear()
-    fetch(`http://localhost:3000/logout`, {
+    fetch(`https://voosh-assignment-backend-vv41.onrender.com/logout`, {
       method: 'GET',
       credentials:'include', headers: {
         'Content-Type': 'application/json'

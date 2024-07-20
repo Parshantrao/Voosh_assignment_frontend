@@ -9,7 +9,7 @@ export const StateProvider = function ({ children }) {
     const [tasksData, setTasksData] = useState([])
 
     const fetchAllTasks = async ()=>{
-        let fetchedData = await fetch(`http://localhost:3000/tasks/${localStorage.getItem("userId")}`, {
+        let fetchedData = await fetch(`https://voosh-assignment-backend-vv41.onrender.com/tasks/${localStorage.getItem("userId")}`, {
             method: 'GET',
             credentials:'include', headers: {
               'Content-Type': 'application/json'
@@ -20,7 +20,7 @@ export const StateProvider = function ({ children }) {
     }
 
     const checkForTokenValidation = async ()=>{
-        let fetchedData = await fetch(`http://localhost:3000/token-validation/`, {
+        let fetchedData = await fetch(`https://voosh-assignment-backend-vv41.onrender.com/token-validation/`, {
             method: 'GET',
             credentials:'include', headers: {
               'Content-Type': 'application/json'

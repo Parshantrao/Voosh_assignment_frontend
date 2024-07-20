@@ -6,7 +6,7 @@ import { Button } from 'react-bootstrap'
 function GoogleLogin({btnText}) {
     const handleGoogleLogin = async (event) => {
         event.preventDefault();
-        window.location.href = 'http://localhost:3000/google-login';
+        window.location.href = 'https://voosh-assignment-backend-vv41.onrender.com/google-login';
       }
   return (
     <div>

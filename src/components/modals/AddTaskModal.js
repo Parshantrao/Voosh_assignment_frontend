@@ -37,7 +37,7 @@ function AddTaskModal() {
     e.preventDefault();
     let userId = localStorage.getItem("userId")
     
-    let fetchedData = await fetch("http://localhost:3000/tasks", {
+    let fetchedData = await fetch("https://voosh-assignment-backend-vv41.onrender.com/tasks", {
       method: "POST",
       credentials: "include",
       headers: {

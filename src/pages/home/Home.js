@@ -97,7 +97,7 @@ function Home() {
 
   const changeTaskStatus = async(id,status) => {
     if(status){
-      let fetchedData = await fetch(`http://localhost:3000/tasks/status/${id}`, {
+      let fetchedData = await fetch(`https://voosh-assignment-backend-vv41.onrender.com/tasks/status/${id}`, {
         method: 'PUT',
         credentials:'include', headers: {
           'Content-Type': 'application/json'
