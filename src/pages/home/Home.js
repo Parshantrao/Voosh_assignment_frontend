@@ -54,7 +54,7 @@ function Home() {
     };
 
     getQueryParams();
-  }, [navigate]);
+  }, [navigate,checkForTokenValidation,fetchAllTasks,setIsUserLoggedin]);
 
 
 

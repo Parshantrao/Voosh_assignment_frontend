@@ -6,7 +6,7 @@ import { stateContext } from '../../contexts/Context';
 import GoogleLogin from '../../components/googleLogin/GoogleLogin';
 
 function Login() {
-  const { setUserEmail, userEmail, setIsUserLoggedin, checkForTokenValidation } = useContext(stateContext);
+  const {  userEmail, setIsUserLoggedin, checkForTokenValidation } = useContext(stateContext);
 
   const navigate = useNavigate()
 
