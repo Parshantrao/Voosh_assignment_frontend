@@ -6,6 +6,8 @@ import Login from './pages/login/Login';
 import NotFound from './pages/not_found/NotFound';
 import Navbar from './components/navbar/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 function App() {
   return (
@@ -14,7 +16,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/registration" element={<Signup />} />
-        <Route path="/dashboard" element={<Home />} />
+        <Route path="/dashboard" element={
+          <DndProvider backend={HTML5Backend}>
+            <Home />
+          </DndProvider>
+        } />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -109,7 +109,7 @@ function EditTaskModal() {
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Description</Form.Label>
-            <Form.Control onChange={handleInputChange} type="text" name='description' value={editTaskFormData.description} />
+            <Form.Control onChange={handleInputChange} type="text" as={"textarea"} name='description' value={editTaskFormData.description} />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicDueDate">

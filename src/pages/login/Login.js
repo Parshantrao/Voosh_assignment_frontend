@@ -1,17 +1,18 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import {  useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { stateContext } from '../../contexts/Context';
+import GoogleLogin from '../../components/googleLogin/GoogleLogin';
 
 function Login() {
-  const {setUserEmail,userEmail,setIsUserLoggedin} = useContext(stateContext);
-  
+  const { setUserEmail, userEmail, setIsUserLoggedin, checkForTokenValidation } = useContext(stateContext);
+
   const navigate = useNavigate()
 
   const formData = {
-    email:userEmail?userEmail:"",
-    password:""
+    email: userEmail ? userEmail : "",
+    password: ""
   }
 
   const [loginFormData, setLoginFormData] = useState(formData)
@@ -19,48 +20,55 @@ function Login() {
   const [loginBtnClicked, setLoginBtnClicked] = useState(false);
 
   const handleEmailChange = (e) => {
-    setLoginFormData({...loginFormData,email:e.target.value});
-    // const emailElement = document.querySelector("input[name=email]")
-    // if(emailRegex.test(emailElement.value)){
-    //   emailElement.setCustomValidity("")
-    // }
-    // else{
-    //   emailElement.setCustomValidity("Please enter a valid email")
-    // }
+    setLoginFormData({ ...loginFormData, email: e.target.value })
   };
 
 
-  const handleSubmit =async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setLoginBtnClicked(true)
-    
-    // localStorage.setItem("userEmail",loginFormData.email)
-    // setUserEmail(loginFormData.email)
 
-    let fetchedData = await fetch("http://localhost:3000/login", {
+
+    let apiResponse = await fetch("http://localhost:3000/login", {
       method: 'POST',
-      credentials:'include', headers: {
+      credentials: 'include', headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ ...loginFormData })
     })
-    let jsonData = await fetchedData.json()
+    let jsonData = await apiResponse.json()
     if (!jsonData.status) {
       window.alert(jsonData.message)
     }
     else {
       setIsUserLoggedin(true)
-      localStorage.setItem('userId',jsonData.data)
+      localStorage.setItem('userId', jsonData.data)
       // window.alert(jsonData.message)
       setLoginFormData(formData)
       setTimeout(() => {
         navigate("/dashboard")
       }, 700);
-      console.log(jsonData)
     }
     setLoginBtnClicked(false)
   };
-  
+
+  const handleGoogleLogin = async (event) => {
+    event.preventDefault();
+    window.location.href = 'http://localhost:3000/google-login';
+  }
+
+  useEffect(() => {
+    const isUserAuthenicated = async () => {
+
+      const isTokenValid = await checkForTokenValidation();
+
+      if (localStorage.getItem('userId') && isTokenValid) {
+        navigate('/dashboard');
+      }
+    }
+    isUserAuthenicated()
+  })
+
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 'calc(100vh - 50px)' }}>
       <div style={{}}>
@@ -69,14 +77,14 @@ function Login() {
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="validationCustom03">
               <Form.Control value={loginFormData.email}
-              onChange={handleEmailChange}
-              name='email'
-              type="email" placeholder="Email" required />
+                onChange={handleEmailChange}
+                name='email'
+                type="email" placeholder="Email" required />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Control required value={loginFormData.password} onChange={(e) => {
-                setLoginFormData({...loginFormData,password:e.target.value.trim()})
+                setLoginFormData({ ...loginFormData, password: e.target.value.trim() })
               }} type="password" placeholder="Password" />
             </Form.Group>
 
@@ -85,13 +93,11 @@ function Login() {
             </Button>
 
             <div style={{ marginTop: '15px' }}>
-              <span style={{ fontWeight: '600' }}>Don't have an account? <span onClick={()=>{
+              <span style={{ fontWeight: '600' }}>Don't have an account? <span onClick={() => {
                 navigate("/registration")
-              }} style={{ textDecoration: 'none',color:'blue',cursor:'pointer' }}>Signup</span> </span>
+              }} style={{ textDecoration: 'none', color: 'blue', cursor: 'pointer' }}>Signup</span> </span>
             </div>
-            <div style={{ textAlign: 'center', marginTop: '15px' }}>
-              <Button >Login with <b>Google</b></Button>
-            </div>
+            <GoogleLogin btnText='Login with ' />
           </Form>
         </div>
       </div>

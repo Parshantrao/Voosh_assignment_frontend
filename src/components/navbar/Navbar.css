@@ -4,6 +4,7 @@
   justify-content: space-between;
   align-items: center;
   height: 50px;
+  width: 100%;
 }
 
 .nav-bar_content .btns {
@@ -23,4 +24,16 @@
 .nav-bar_content .btns button#selected {
     color: blue;
     background-color: white;
+  }
+
+  .nav-bar_content .profile-icon{
+
+  }
+  .nav-bar_content .profile-icon .btn{
+    padding: 3px;
+    border: none;
+    background-color: blue;
+  }
+  .nav-bar_content .profile-icon .dropdown-toggle::after{
+   display: none;
   }

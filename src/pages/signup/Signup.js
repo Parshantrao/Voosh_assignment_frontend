@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router';
 import { stateContext } from '../../contexts/Context';
+import GoogleLogin from '../../components/googleLogin/GoogleLogin';
 
 function Signup() {
 
@@ -117,9 +118,7 @@ function Signup() {
                 navigate("/login")
               }} style={{ textDecoration: 'none', cursor: 'pointer', color: 'blue' }}>Login</span> </span>
             </div>
-            <div style={{ textAlign: 'center', marginTop: '15px' }}>
-              <Button>Signup with <b>Google</b></Button>
-            </div>
+           <GoogleLogin btnText="Signup with" />
           </Form>
         </div>
       </div>

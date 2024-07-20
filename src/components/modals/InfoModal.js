@@ -21,9 +21,10 @@ function InfoModal( props) {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <p id='title'>Title: {cardDetails.title}</p>
-                <p id='description'>Description: {cardDetails.description}</p>
-                <p id='date'>Created at: {cardDetails.dueDate}</p>
+                <p id='title'>Title: {cardDetails?.title}</p>
+                <p id='description'>Description: {cardDetails?.description}</p>
+                <p id='date'>Created at: {cardDetails?.createdAt?.split("T")[0]}</p>
+                <p id='date'>Due Date: {cardDetails?.dueDate}</p>
             </Modal.Body>
             <Modal.Footer>
                 <Button onClick={props.onHide}>Close</Button>
