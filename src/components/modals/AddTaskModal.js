@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import { stateContext } from "../../contexts/Context";
 import Form from "react-bootstrap/Form";
 import "./Style.css";
+import { fetchAllTasks } from "../../serverCalls/ServerCalls";
 
 function AddTaskModal() {
   const formData = {
@@ -13,7 +14,7 @@ function AddTaskModal() {
   };
 
 
-  const { fetchAllTasks,addModalShow,setAddModalShow,setCardDetails } = useContext(stateContext);
+  const { addModalShow, setAddModalShow, setCardDetails, setTasksData } = useContext(stateContext);
 
   const [newTaskFormData, setNewTaskFormData] = useState(formData);
 
@@ -35,27 +36,33 @@ function AddTaskModal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let userId = localStorage.getItem("userId")
-    
-    let fetchedData = await fetch("https://voosh-assignment-backend-vv41.onrender.com/tasks", {
+
+    let fetchedData = await fetch(`${process.env.BACKEND_DEPLOYED_URL}/tasks`, {
       method: "POST",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...newTaskFormData, userId: userId }),
+      body: JSON.stringify({ ...newTaskFormData }),
     });
     const data = await fetchedData.json();
-    fetchAllTasks()
+    (async function () {
+      let userTaks = await fetchAllTasks();
+
+      if (userTaks) {
+        setTasksData([...userTaks])
+      }
+    })()
     window.alert(data.message);
     setNewTaskFormData(formData)
+    setAddModalShow(false)
   };
 
   return (
     <Modal
       className="add-task-modal"
       show={addModalShow}
-      onHide={()=>{
+      onHide={() => {
         setAddModalShow(false)
         setCardDetails([])
         setNewTaskFormData(formData)
@@ -112,9 +119,9 @@ function AddTaskModal() {
         >
           Save
         </Button>
-        <Button variant="secondary" onClick={()=>{
-           setAddModalShow(false)
-           setCardDetails([])
+        <Button variant="secondary" onClick={() => {
+          setAddModalShow(false)
+          setCardDetails([])
           setNewTaskFormData(formData)
         }}>
           Cancel

@@ -6,7 +6,7 @@ import { stateContext } from '../../contexts/Context';
 import GoogleLogin from '../../components/googleLogin/GoogleLogin';
 
 function Login() {
-  const {  userEmail, setIsUserLoggedin, checkForTokenValidation } = useContext(stateContext);
+  const { userEmail, isUserLoggedIn } = useContext(stateContext);
 
   const navigate = useNavigate()
 
@@ -28,22 +28,19 @@ function Login() {
     event.preventDefault();
     setLoginBtnClicked(true)
 
-
-    let apiResponse = await fetch("https://voosh-assignment-backend-vv41.onrender.com/login", {
+    let apiResponse = await fetch(`${process.env.REACT_APP_BACKEND_DEPLOYED_URL_PRODUCTION}/login`, {
       method: 'POST',
       credentials: 'include', headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ ...loginFormData })
     })
+
     let jsonData = await apiResponse.json()
     if (!jsonData.status) {
       window.alert(jsonData.message)
     }
     else {
-      setIsUserLoggedin(true)
-      localStorage.setItem('userId', jsonData.data)
-      // window.alert(jsonData.message)
       setLoginFormData(formData)
       setTimeout(() => {
         navigate("/dashboard")
@@ -52,22 +49,14 @@ function Login() {
     setLoginBtnClicked(false)
   };
 
-  const handleGoogleLogin = async (event) => {
-    event.preventDefault();
-    window.location.href = 'https://voosh-assignment-backend-vv41.onrender.com/google-login';
-  }
+
 
   useEffect(() => {
-    const isUserAuthenicated = async () => {
-
-      const isTokenValid = await checkForTokenValidation();
-
-      if (localStorage.getItem('userId') && isTokenValid) {
-        navigate('/dashboard');
-      }
+    if (isUserLoggedIn) {
+      navigate('/dashboard');
     }
-    isUserAuthenicated()
-  })
+
+  }, [isUserLoggedIn,navigate])
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 'calc(100vh - 50px)' }}>

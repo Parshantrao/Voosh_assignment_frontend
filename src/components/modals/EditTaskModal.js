@@ -4,11 +4,12 @@ import Modal from 'react-bootstrap/Modal';
 import { stateContext } from '../../contexts/Context';
 import Form from 'react-bootstrap/Form';
 import "./Style.css"
+import { fetchAllTasks } from '../../serverCalls/ServerCalls';
 
 function EditTaskModal() {
   const today = new Date().toISOString().split("T")[0];
 
-  const { cardDetails, fetchAllTasks, setEditModalShow, setCardDetails, editModalShow } = useContext(stateContext)
+  const { cardDetails, setTasksData, setEditModalShow, setCardDetails, editModalShow } = useContext(stateContext)
 
   const formData = {
     title: "",
@@ -59,7 +60,7 @@ function EditTaskModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let fetchedData = await fetch(`https://voosh-assignment-backend-vv41.onrender.com/tasks/${cardDetails.id}`, {
+    let fetchedData = await fetch(`${process.env.REACT_APP_BACKEND_DEPLOYED_URL_PRODUCTION}/tasks/${cardDetails.id}`, {
       method: "PUT",
       credentials: "include",
       headers: {
@@ -69,7 +70,13 @@ function EditTaskModal() {
     });
     const data = await fetchedData.json();
     window.alert(data.message);
-    fetchAllTasks()
+    (async function () {
+      let userTaks = await fetchAllTasks();
+
+      if (userTaks) {
+        setTasksData([...userTaks])
+      }
+    })()
     setIsDateChanged(false)
     setIsTitleChanged(false)
     setIsDescriptionChanged(false)

@@ -1,10 +1,11 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { stateContext } from '../../contexts/Context';
+import { fetchAllTasks } from '../../serverCalls/ServerCalls';
 
 function DeleteTaskModal() {
-    const {deleteModalShow,setDeleteModalShow,taskId,fetchAllTasks} = useContext(stateContext)
+    const {deleteModalShow,setDeleteModalShow,taskId,setTasksData} = useContext(stateContext)
 
   const handleClose = () => {
     setDeleteModalShow(false)
@@ -13,7 +14,7 @@ function DeleteTaskModal() {
   const handleDelete = async(e)=>{
     e.preventDefault();
 
-    let fetchedData = await fetch(`https://voosh-assignment-backend-vv41.onrender.com/tasks/${taskId}`, {
+    let fetchedData = await fetch(`${process.env.REACT_APP_BACKEND_DEPLOYED_URL_PRODUCTION}/tasks/${taskId}`, {
       method: "DELETE",
       credentials: "include",
       headers: {
@@ -23,7 +24,13 @@ function DeleteTaskModal() {
     const data = await fetchedData.json();
     handleClose()
     window.alert(data.message);
-    fetchAllTasks()
+    (async function () {
+      let userTaks = await fetchAllTasks();
+
+      if (userTaks) {
+        setTasksData([...userTaks])
+      }
+    })()
    
   }
   return (

@@ -10,18 +10,27 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 function Navbar() {
 
-  const { loginModalOpen, setLoginModalOpen, showNavBar, setShowNavBar, isUserLoggedin } = useContext(stateContext)
+  const {isUserLoggedIn, loginModalOpen, setLoginModalOpen,setIsUserLoggedIn, showNavBar, setShowNavBar } = useContext(stateContext)
   const navigate = useNavigate()
 
-  const handleLogoutBtnClick = ()=>{
-    localStorage.clear()
-    fetch(`https://voosh-assignment-backend-vv41.onrender.com/logout`, {
+
+  const handleLogoutBtnClick = async ()=>{
+     
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_DEPLOYED_URL_PRODUCTION}/logout`, {
       method: 'GET',
-      credentials:'include', headers: {
+      credentials: 'include',
+      headers: {
         'Content-Type': 'application/json'
       }
-    })
-    navigate("/login")
+    });
+    
+
+    if (response.ok) {
+      navigate('/login');
+      setIsUserLoggedIn(false)
+    } else {
+      console.error('Logout failed:', response.statusText);
+    }
   }
 
   useEffect(() => {
@@ -34,11 +43,13 @@ function Navbar() {
     let flag = ["/login", "/dashboard", "/registration"].includes(window.location.pathname)
     setShowNavBar(flag)
   })
+
+
   return (
     showNavBar &&
     <div className='nav-bar_content' >
       <TbNotes className='icons' style={{ color: 'white', height: '40px', fontSize: "40px" }} />
-      {!localStorage.getItem('userId') ?
+      {!isUserLoggedIn ?
         <div className='btns'>
           <button id={loginModalOpen ? "selected" : ""} onClick={() => {
             navigate("/login")

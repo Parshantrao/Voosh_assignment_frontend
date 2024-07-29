@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState,useEffect } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router';
@@ -21,7 +21,7 @@ function Signup() {
 
   const [signupBtnClicked, setSignupBtnClicked] = useState(false)
 
-  const { setUserEmail } = useContext(stateContext)
+  const { setUserEmail,isUserLoggedIn } = useContext(stateContext)
   
   const navigate = useNavigate()
 
@@ -52,13 +52,15 @@ function Signup() {
     e.preventDefault();
     setUserEmail(signupFormData.email)
 
-    let fetchedData = await fetch("https://voosh-assignment-backend-vv41.onrender.com/users", {
+    let fetchedData = await fetch(`${process.env.BACKEND_DEPLOYED_UR}L/users`, {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ ...signupFormData })
     })
+
     let jsonData = await fetchedData.json()
+    
     if (!jsonData.status) {
       window.alert(jsonData.message)
     }
@@ -71,6 +73,15 @@ function Signup() {
     }
     setSignupBtnClicked(false)
   }
+
+  useEffect(() => {
+
+    if (isUserLoggedIn) {
+      navigate('/dashboard');
+    }
+
+  }, [isUserLoggedIn,navigate])
+
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 'calc(100vh - 50px)' }}>
