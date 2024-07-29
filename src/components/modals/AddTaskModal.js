@@ -37,7 +37,7 @@ function AddTaskModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let fetchedData = await fetch(`${process.env.BACKEND_DEPLOYED_URL}/tasks`, {
+    let fetchedData = await fetch(`${process.env.REACT_APP_BACKEND_DEPLOYED_URL_PRODUCTION}/tasks`, {
       method: "POST",
       credentials: "include",
       headers: {

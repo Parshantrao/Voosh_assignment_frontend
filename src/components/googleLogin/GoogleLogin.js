@@ -6,7 +6,7 @@ import { Button } from 'react-bootstrap'
 function GoogleLogin({btnText}) {
     const handleGoogleLogin = async (event) => {
         event.preventDefault();
-        window.location.href = `${process.env.BACKEND_DEPLOYED_URL}/google-login`;
+        window.location.href = `${process.env.REACT_APP_BACKEND_DEPLOYED_URL_PRODUCTION}/google-login`;
       }
   return (
     <div>
